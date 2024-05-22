@@ -10,7 +10,7 @@ const Validator = ({ access, setAccess }) => {
     console.log(access_token);
     const validate = async () => {
       const accesstoken = access_token;
-      const uri = "http://localhost:5000/validatetoken";
+      const uri = "https://weboauthapi.onrender.com/validatetoken";
       print(JSON.stringify({ accesstoken: accesstoken }));
       try {
         const response = await fetch(uri, {
