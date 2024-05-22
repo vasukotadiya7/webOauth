@@ -3,17 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { useState } from "react";
 
-const Forgot = () => {
-  const { param1 } = useParams();
+const Forgot = ({ access }) => {
   var navigate = useNavigate();
-  if (param1 == null || "") {
+  if (access.accesstoken == null || "") {
     navigate("/unauthorized");
   }
   const [email, setEmail] = useState("");
   const userForogt = async () => {
     await sendPasswordResetEmail(auth, email)
       .then(() => {
-        navigate(`/login/${param1}`);
+        navigate(`/login}`);
       })
       .catch(alert);
   };

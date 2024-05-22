@@ -3,13 +3,9 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase";
 
-const Verify = () => {
-  const { param1 } = useParams();
+const Verify = ({ access }) => {
   var navigate = useNavigate();
-  if (param1 == null || "") {
-    alert("Please try to open login website from your app or website");
-    window.close();
-
+  if (access.accesstoken == null || "") {
     navigate("/unauthorized");
   }
   const userVerification = async () => {
