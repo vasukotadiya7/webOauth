@@ -48,7 +48,7 @@ const Validator = ({ access, setAccess }) => {
   return (
     <div>
       {access.validated ? navigate("/login") : <h1>Validating.....</h1>}
-      {/* {access.accesstoken} */}
+      {access.accesstoken}
     </div>
   );
 };
