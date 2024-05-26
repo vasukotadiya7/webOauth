@@ -18,6 +18,7 @@ const Validator = ({ access, setAccess }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          muteHttpExceptions: true,
           body: JSON.stringify({ accesstoken: accesstoken }),
         });
         if (!response.ok) {

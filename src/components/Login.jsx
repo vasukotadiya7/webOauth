@@ -13,6 +13,41 @@ const Login = ({ access, setAccess }) => {
     email: "",
     password: "",
   });
+  const genrateUToken = async (id) => {
+    const uri = "https://weboauthapi.onrender.com/getusertoken";
+    print(JSON.stringify({ uid: id }));
+    try {
+      const response = await fetch(uri, {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+        muteHttpExceptions: true,
+        body: JSON.stringify({ uid: id }),
+      });
+      if (!response.ok) {
+        console.log("Something went wrong!");
+        return;
+      }
+      const data = await response.json();
+      if (data.message) {
+        alert(data.message);
+        return;
+      } else {
+        setAccess({
+          ...access,
+          usertoken: data.userToken,
+        });
+        const usertoken = access.usertoken;
+        window.open(`${access.redirect_url}?usertoken=${usertoken}`);
+      }
+      console.log("Success:", data);
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
   const userLogin = async (e) => {
     e.preventDefault();
     await signInWithEmailAndPassword(auth, user.email, user.password)
@@ -27,8 +62,8 @@ const Login = ({ access, setAccess }) => {
             user.email.split("@")[1].split(".")[0] +
             user.email.split("@")[1].split(".")[1];
           //genrate usertoken with id through api
-          const usertoken = id;
-          window.open(`${access.redirect_url}?usertoken=${usertoken}`);
+          genrateUToken(id);
+
           // Navigate("/");
         } else {
           navigate(`/verify`);
