@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const Validator = () => {
-  const [access, setAccess] = useState({
-    usertoken: "",
-    accesstoken: "",
-    validated: false,
-    time: 0,
-    redirect_url: "",
-  });
+const Validator = ({ access, setAccess }) => {
   const navigate = useNavigate();
   let { access_token } = useParams();
 
@@ -39,7 +32,13 @@ const Validator = () => {
           data.validated = true;
           console.log("Success:", data);
 
-          setAccess(null);
+          setAccess({
+            accesstoken: access_token,
+            validated: true,
+            time: data.time,
+            redirect_url: data.redirect,
+          });
+          navigate("/login");
 
           console.log(access);
         }
