@@ -42,7 +42,10 @@ const Login = ({ access, setAccess }) => {
         const usertoken = access.usertoken;
         console.log(access);
         // window.open(`${access.redirect_url}?usertoken=${usertoken}`, "_blank");
-        window.open(`app://login?usertoken=${usertoken}`, "_blank");
+        if (usertoken) {
+          window.location.href = `app://login?usertoken=${usertoken}`;
+        }
+        // window.open(`app://login?usertoken=${usertoken}`, "_blank");
       }
       console.log("Success:", data);
     } catch (error) {
