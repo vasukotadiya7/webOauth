@@ -5,8 +5,9 @@ import {
 import { ref, set } from "firebase/database";
 import * as firebaseStorage from "firebase/storage";
 import { useState } from "react";
-import { auth, database, storage } from "../config/firebase";
+import { auth, database, db, storage } from "../config/firebase";
 import { useNavigate, useParams } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = ({ access, setAccess }) => {
   var navigate = useNavigate();
@@ -16,7 +17,6 @@ const Register = ({ access, setAccess }) => {
   const [user, setUser] = useState({
     fname: "",
     lname: "",
-    age: 0,
     email: "",
     password: "",
   });
@@ -29,14 +29,15 @@ const Register = ({ access, setAccess }) => {
         url: URL.createObjectURL(e.target.files[0]),
         file: e.target.files[0],
       });
-      photoUpload();
+      photoUpload(e);
     }
   };
-  const photoUpload = async () => {
+  const photoUpload = async (e) => {
     const strref = firebaseStorage.ref(
       storage,
-      "/profileimg/" + profilephoto.file.name
+      "/profileimg/" + e.target.files[0].name
     );
+    console.log(e.target.files[0].name);
     const uploadPhoto = firebaseStorage.uploadBytesResumable(
       strref,
       profilephoto.file
@@ -67,8 +68,7 @@ const Register = ({ access, setAccess }) => {
         user.email.split("@")[0] +
         user.email.split("@")[1].split(".")[0] +
         user.email.split("@")[1].split(".")[1];
-
-      await set(ref(database, "users/" + id), user)
+      await setDoc(doc(db, "Users", id), user)
         .then(() => {
           createUserWithEmailAndPassword(auth, user.email, user.password)
             .then((userCredential) => {
@@ -83,6 +83,21 @@ const Register = ({ access, setAccess }) => {
         .catch((error) => {
           console.error(error);
         });
+      // await set(ref(database, "users/" + id), user)
+      //   .then(() => {
+      //     createUserWithEmailAndPassword(auth, user.email, user.password)
+      //       .then((userCredential) => {
+      //         // send verification mail.
+      //         sendEmailVerification(userCredential.user);
+      //         // signOut();
+      //         alert(" Verification email sent");
+      //         navigate(`/login`);
+      //       })
+      //       .catch(alert);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     } else {
       alert("Passwords does not match");
     }

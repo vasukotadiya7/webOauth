@@ -1,4 +1,10 @@
-import { Route, Routes, useParams } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -24,20 +30,24 @@ function App() {
     setDark(!dark);
     document.body.classList.toggle("dark");
   };
+  // if (access.validated) {
+  //   const navigate = useNavigate();
+  //   navigate("/login");
+  // }
 
   return (
     <div className="relative">
-      {access.validated && (
-        <div className="text-right justify-end  flex absolute z-50  bg-gray-400 dark:bg-gray-900  ">
-          <DarkModeSwitch
-            // style={{ marginBottom: "2rem" }}
-            checked={dark}
-            onChange={darkModeHandler}
-            size={40}
-            onClick={darkModeHandler}
-          />
-        </div>
-      )}
+      {/* {access.validated && ( */}
+      <div className="text-right justify-end  flex absolute z-50  bg-gray-400 dark:bg-gray-900  ">
+        <DarkModeSwitch
+          // style={{ marginBottom: "2rem" }}
+          checked={dark}
+          onChange={darkModeHandler}
+          size={40}
+          onClick={darkModeHandler}
+        />
+      </div>
+      {/* )} */}
       <Routes>
         <Route path="/" element={<h2>Access Token Not Found</h2>} />
         <Route
