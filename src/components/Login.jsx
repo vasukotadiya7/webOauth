@@ -41,7 +41,7 @@ const Login = ({ access, setAccess }) => {
         });
         const usertoken = access.usertoken;
         console.log(access);
-        if (usertoken && access.redirect) {
+        if (usertoken && access.redirect_url) {
           window.open(
             `${access.redirect_url}?usertoken=${usertoken}`,
             "_blank"
